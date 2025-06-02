@@ -8,12 +8,9 @@ import { breakpoints, useWindowSize } from '@openedx/paragon';
 import { AlertList } from '@src/generic/user-messages';
 import { useModel } from '@src/generic/model-store';
 import { getCoursewareOutlineSidebarSettings } from '../data/selectors';
-import { Trigger as CourseOutlineTrigger } from './sidebar/sidebars/course-outline';
 import Chat from './chat/Chat';
 import SidebarProvider from './sidebar/SidebarContextProvider';
-import SidebarTriggers from './sidebar/SidebarTriggers';
 import NewSidebarProvider from './new-sidebar/SidebarContextProvider';
-import NewSidebarTriggers from './new-sidebar/SidebarTriggers';
 import { CelebrationModal, shouldCelebrateOnSectionLoad, WeeklyGoalCelebrationModal } from './celebration';
 import CourseBreadcrumbs from './CourseBreadcrumbs';
 import ContentTools from './content-tools';
@@ -77,15 +74,15 @@ const Course = ({
       </Helmet>
       <div className="position-relative d-flex align-items-xl-center mb-4 mt-1 flex-column flex-xl-row">
         {navigationDisabled || (
-        <>
-          <CourseBreadcrumbs
-            courseId={courseId}
-            sectionId={section ? section.id : null}
-            sequenceId={sequenceId}
-            isStaff={isStaff}
-            unitId={unitId}
-          />
-        </>
+          <>
+            <CourseBreadcrumbs
+              courseId={courseId}
+              sectionId={section ? section.id : null}
+              sequenceId={sequenceId}
+              isStaff={isStaff}
+              unitId={unitId}
+            />
+          </>
         )}
         {shouldDisplayChat && (
           <>
@@ -99,10 +96,10 @@ const Course = ({
             />
           </>
         )}
-        <div className="w-100 d-flex align-items-center">
+        {/* <div className="w-100 d-flex align-items-center">
           <CourseOutlineTrigger isMobileView />
           {isNewDiscussionSidebarViewEnabled ? <NewSidebarTriggers /> : <SidebarTriggers /> }
-        </div>
+        </div> */}
       </div>
 
       <AlertList topic="sequence" />

@@ -10,6 +10,7 @@ import {
 import { useSelector } from 'react-redux';
 
 import { GetCourseExitNavigation } from '../../course-exit';
+import SidebarTriggers from '../../sidebar/SidebarTriggers';
 
 import UnitNavigationEffortEstimate from './UnitNavigationEffortEstimate';
 import { useSequenceNavigationMetadata } from './hooks';
@@ -68,10 +69,21 @@ const UnitNavigation = ({
     );
   };
 
+  // Add SidebarTriggers component to display notification and discussion icons
+
   return (
-    <div className={classNames('unit-navigation d-flex', { 'top-unit-navigation mb-3 w-100': isAtTop })}>
-      {renderPreviousButton()}
-      {renderNextButton()}
+    <div className={classNames('unit-navigation d-flex align-items-center justify-content-between', { 'top-unit-navigation mb-3 w-100': isAtTop })}>
+      {isAtTop && (
+        <div className="d-flex ml-auto mr-3">
+          <SidebarTriggers />
+        </div>
+      )}
+
+      <div className="d-flex align-items-center">
+        {renderPreviousButton()}
+        {renderNextButton()}
+      </div>
+
     </div>
   );
 };
