@@ -1,6 +1,6 @@
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { Icon } from '@openedx/paragon';
-import { WatchOutline } from '@openedx/paragon/icons';
+import { Notifications } from '@openedx/paragon/icons';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -14,7 +14,7 @@ const NotificationIcon = ({
   const intl = useIntl();
   return (
     <>
-      <Icon src={WatchOutline} className="m-0 m-auto" alt={intl.formatMessage(messages.openNotificationTrigger)} />
+      <Icon src={Notifications} className="m-0 m-auto" style={{ color: '#093055' }} alt={intl.formatMessage(messages.openNotificationTrigger)} />
       {status === 'active'
         ? (
           <span
