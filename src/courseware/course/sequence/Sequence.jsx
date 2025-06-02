@@ -36,6 +36,7 @@ const Sequence = ({
   unitNavigationHandler,
   nextSequenceHandler,
   previousSequenceHandler,
+  hideSidebar,
 }) => {
   const intl = useIntl();
   const [isOpen, open, close] = useToggle();
@@ -208,7 +209,7 @@ const Sequence = ({
             {unitHasLoaded && renderUnitNavigation(false)}
           </div>
         </div>
-        {isNewDiscussionSidebarViewEnabled ? <NewSidebar /> : <Sidebar />}
+        {!hideSidebar && (isNewDiscussionSidebarViewEnabled ? <NewSidebar /> : <Sidebar />)}
       </div>
       <SequenceContainerSlot courseId={courseId} unitId={unitId} />
     </>
@@ -247,11 +248,13 @@ Sequence.propTypes = {
   unitNavigationHandler: PropTypes.func.isRequired,
   nextSequenceHandler: PropTypes.func.isRequired,
   previousSequenceHandler: PropTypes.func.isRequired,
+  hideSidebar: PropTypes.bool,
 };
 
 Sequence.defaultProps = {
   sequenceId: null,
   unitId: null,
+  hideSidebar: false,
 };
 
 export default Sequence;

@@ -18,6 +18,8 @@ import { CelebrationModal, shouldCelebrateOnSectionLoad, WeeklyGoalCelebrationMo
 import CourseBreadcrumbs from './CourseBreadcrumbs';
 import ContentTools from './content-tools';
 import Sequence from './sequence';
+import Sidebar from './sidebar/Sidebar';
+import NewSidebar from './new-sidebar/Sidebar';
 
 const Course = ({
   courseId,
@@ -106,14 +108,25 @@ const Course = ({
       </div>
 
       <AlertList topic="sequence" />
-      <Sequence
-        unitId={unitId}
-        sequenceId={sequenceId}
-        courseId={courseId}
-        unitNavigationHandler={unitNavigationHandler}
-        nextSequenceHandler={nextSequenceHandler}
-        previousSequenceHandler={previousSequenceHandler}
-      />
+      {/* Side-by-side container for sequence and sidebar */}
+      <div className="d-flex flex-row w-100">
+        {/* Main sequence content */}
+        <div className="flex-grow-1">
+          <Sequence
+            unitId={unitId}
+            sequenceId={sequenceId}
+            courseId={courseId}
+            unitNavigationHandler={unitNavigationHandler}
+            nextSequenceHandler={nextSequenceHandler}
+            previousSequenceHandler={previousSequenceHandler}
+            hideSidebar
+          />
+        </div>
+        {/* Sidebar */}
+        <div className="course-sidebar-container" style={{ width: '320px', borderLeft: '1px solid #e1e1e1', padding: '1rem' }}>
+          {isNewDiscussionSidebarViewEnabled ? <NewSidebar /> : <Sidebar />}
+        </div>
+      </div>
       <CelebrationModal
         courseId={courseId}
         isOpen={firstSectionCelebrationOpen}
