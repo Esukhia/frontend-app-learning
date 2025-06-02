@@ -1,7 +1,7 @@
 import { ensureConfig, getConfig } from '@edx/frontend-platform';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Icon } from '@openedx/paragon';
-import { QuestionAnswer } from '@openedx/paragon/icons';
+import { Forum } from '@openedx/paragon/icons';
 import PropTypes from 'prop-types';
 import { useContext, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
@@ -45,7 +45,7 @@ const DiscussionsTrigger = ({
 
   return (
     <SidebarTriggerBase onClick={onClick} ariaLabel={intl.formatMessage(messages.openDiscussionsTrigger)}>
-      <Icon src={QuestionAnswer} className="m-0 m-auto" />
+      <Icon src={Forum} className="m-0 m-auto" style={{ color: '#093055' }} />
     </SidebarTriggerBase>
   );
 };
