@@ -2,7 +2,10 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { useIntl } from '@edx/frontend-platform/i18n';
 
+// Course components
 import { GetCourseExitNavigation } from '../../course-exit';
+import SidebarTriggers from '../../sidebar/SidebarTriggers';
+import { Trigger as CourseOutlineTrigger } from '../../sidebar/sidebars/course-outline';
 
 import { useSequenceNavigationMetadata } from './hooks';
 import messages from './messages';
@@ -23,6 +26,11 @@ const UnitNavigation = ({
     isFirstUnit, isLastUnit, nextLink, previousLink,
   } = useSequenceNavigationMetadata(sequenceId, unitId);
 
+  // Get arrow direction based on RTL settings
+  const locale = getLocale();
+  const prevArrow = isRtl(locale) ? faChevronRight : faChevronLeft;
+  const nextArrow = isRtl(locale) ? faChevronLeft : faChevronRight;
+
   const renderPreviousButton = () => {
     const buttonStyle = `previous-button ${isAtTop ? 'text-dark mr-3' : 'justify-content-center'}`;
     return (
@@ -38,6 +46,7 @@ const UnitNavigation = ({
     );
   };
 
+  
   const renderNextButton = () => {
     const { exitActive, exitText } = GetCourseExitNavigation(courseId, intl);
     const buttonText = (isLastUnit && exitText) ? exitText : intl.formatMessage(messages.nextButton);
@@ -76,17 +85,44 @@ const UnitNavigation = ({
   };
 
   return (
-    <div className={classNames('d-flex', {
-      'unit-navigation': !isAtTop,
-      'top-unit-navigation': isAtTop,
-    })}
-    >
-      {renderPreviousButton()}
-      {renderNextButton()}
+    <div className={classNames('unit-navigation d-flex align-items-center justify-content-between', { 'top-unit-navigation mb-2.5 w-100 mt-n4.5': isAtTop && !hasSequenceAlerts, 'top-unit-navigation mb-2.5 w-100': isAtTop && hasSequenceAlerts })}>
+      {/* Top navigation area with course outline and sidebar triggers */}
+      {isAtTop && (
+        <div className="d-flex align-items-center justify-content-between w-100">
+          {/* Course Outline Trigger on left side */}
+          <div className="mr-2">
+            <CourseOutlineTrigger isMobileView />
+          </div>
+          {/* Container for right-aligned triggers with spacing */}
+          <div className="d-flex align-items-center mr-2">
+            <SidebarTriggers className="mx-1" />
+          </div>
+        </div>
+      )}
+
+      {/* Navigation buttons area */}
+      <div className={classNames('d-flex align-items-center', { 'w-100 justify-content-between': !isAtTop })}>
+        {isAtTop ? (
+          /* Top navigation buttons aligned to the right */
+          <div className="d-flex ml-auto">
+            <div className="mr-2">{renderPreviousButton()}</div>
+            <div>{renderNextButton()}</div>
+          </div>
+        ) : (
+          /* Bottom navigation buttons */
+          <>
+            {renderPreviousButton()}
+            {renderNextButton()}
+          </>
+        )}
+      </div>
     </div>
   );
 };
 
+/**
+ * PropTypes for UnitNavigation component
+ */
 UnitNavigation.propTypes = {
   courseId: PropTypes.string.isRequired,
   sequenceId: PropTypes.string.isRequired,
