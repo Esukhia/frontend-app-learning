@@ -87,9 +87,11 @@ const UnitNavigation = ({
 
       <div className={classNames('d-flex align-items-center', { 'w-100 justify-content-between': !isAtTop })}>
         {renderPreviousButton()}
-        <div className="ml-2">
-          {renderNextButton()}
-        </div>
+        {isAtTop ? (
+          <div className="ml-2">
+            {renderNextButton()}
+          </div>
+        ) : renderNextButton()}
       </div>
 
     </div>
