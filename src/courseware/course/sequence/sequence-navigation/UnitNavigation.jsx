@@ -29,9 +29,13 @@ const UnitNavigation = ({
   } = useSequenceNavigationMetadata(sequenceId, unitId);
   const { courseId } = useSelector(state => state.courseware);
 
+  // Get arrow direction based on RTL settings
+  const locale = getLocale();
+  const prevArrow = isRtl(locale) ? faChevronRight : faChevronLeft;
+  const nextArrow = isRtl(locale) ? faChevronLeft : faChevronRight;
+
   const renderPreviousButton = () => {
     const disabled = isFirstUnit;
-    const prevArrow = isRtl(getLocale()) ? faChevronRight : faChevronLeft;
     return (
       <Button
         variant="outline-secondary"
@@ -59,7 +63,6 @@ const UnitNavigation = ({
     const { exitActive, exitText } = GetCourseExitNavigation(courseId, intl);
     const buttonText = (isLastUnit && exitText) ? exitText : intl.formatMessage(messages.nextButton);
     const disabled = isLastUnit && !exitActive;
-    const nextArrow = isRtl(getLocale()) ? faChevronLeft : faChevronRight;
     return (
       <Button
         variant="outline-primary"
@@ -83,8 +86,6 @@ const UnitNavigation = ({
     );
   };
 
-  // Add SidebarTriggers component to display notification and discussion icons
-
   return (
     <div className={classNames('unit-navigation d-flex align-items-center justify-content-between', { 'top-unit-navigation mb-2.5 w-100 mt-n4.5': isAtTop })}>
       {isAtTop && (
@@ -96,12 +97,8 @@ const UnitNavigation = ({
       <div className={classNames('d-flex align-items-center', { 'w-100 justify-content-between': !isAtTop })}>
         {isAtTop ? (
           <div className="d-flex w-100">
-            <div className="w-50 pr-1">
-              {renderPreviousButton()}
-            </div>
-            <div className="w-50 pl-1">
-              {renderNextButton()}
-            </div>
+            <div className="w-50 pr-1">{renderPreviousButton()}</div>
+            <div className="w-50 pl-1">{renderNextButton()}</div>
           </div>
         ) : (
           <>
@@ -110,7 +107,6 @@ const UnitNavigation = ({
           </>
         )}
       </div>
-
     </div>
   );
 };
