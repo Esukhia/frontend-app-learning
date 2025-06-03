@@ -96,10 +96,6 @@ const Course = ({
             />
           </>
         )}
-        {/* <div className="w-100 d-flex align-items-center">
-          <CourseOutlineTrigger isMobileView />
-          {isNewDiscussionSidebarViewEnabled ? <NewSidebarTriggers /> : <SidebarTriggers /> }
-        </div> */}
       </div>
 
       <AlertList topic="sequence" />
