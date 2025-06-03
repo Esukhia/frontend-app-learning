@@ -83,7 +83,7 @@ const UnitNavigation = ({
     <div className={classNames('unit-navigation d-flex align-items-center justify-content-between', { 'top-unit-navigation mb-2.5 w-100 mt-n4.5': isAtTop })}>
       {isAtTop && (
         <div className="d-flex align-items-center ml-auto mr-3"> {/* Container for right-aligned triggers */}
-          <div className="d-lg-none mr-2"> {/* Course Outline Trigger - mobile & tablet only */}
+          <div className="mr-2"> {/* Course Outline Trigger - visible on all screen sizes */}
             <CourseOutlineTrigger isMobileView />
           </div>
           <SidebarTriggers className="mx-1" />
