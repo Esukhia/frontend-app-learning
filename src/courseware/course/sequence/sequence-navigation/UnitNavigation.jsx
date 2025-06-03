@@ -78,7 +78,7 @@ const UnitNavigation = ({
   // Add SidebarTriggers component to display notification and discussion icons
 
   return (
-    <div className={classNames('unit-navigation d-flex align-items-center justify-content-between', { 'top-unit-navigation mb-1 w-100': isAtTop })}>
+    <div className={classNames('unit-navigation d-flex align-items-center justify-content-between', { 'top-unit-navigation mb-3 w-100 mt-n3': isAtTop })}>
       {isAtTop && (
         <div className="d-flex ml-auto mr-2">
           <SidebarTriggers />
