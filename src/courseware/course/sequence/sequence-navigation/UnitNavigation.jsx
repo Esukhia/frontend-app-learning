@@ -35,7 +35,10 @@ const UnitNavigation = ({
     return (
       <Button
         variant="outline-secondary"
-        className="previous-button mr-sm-2 d-flex align-items-center justify-content-center"
+        className={classNames(
+          'previous-button mr-sm-2 d-flex align-items-center justify-content-center',
+          { 'w-100': !isAtTop },
+        )}
         disabled={disabled}
         onClick={onClickPrevious}
         as={disabled ? undefined : Link}
@@ -55,7 +58,10 @@ const UnitNavigation = ({
     return (
       <Button
         variant="outline-primary"
-        className="next-button d-flex align-items-center justify-content-center"
+        className={classNames(
+          'next-button d-flex align-items-center justify-content-center',
+          { 'w-100': !isAtTop },
+        )}
         onClick={onClickNext}
         disabled={disabled}
         as={disabled ? undefined : Link}
@@ -79,7 +85,7 @@ const UnitNavigation = ({
         </div>
       )}
 
-      <div className="d-flex align-items-center">
+      <div className={classNames('d-flex align-items-center', { 'w-100 justify-content-between': !isAtTop })}>
         {renderPreviousButton()}
         {renderNextButton()}
       </div>
