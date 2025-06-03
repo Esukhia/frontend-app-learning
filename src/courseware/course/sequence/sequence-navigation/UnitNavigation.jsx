@@ -70,8 +70,9 @@ const UnitNavigation = ({
         variant="outline-primary"
         className={classNames(
           'next-button d-flex align-items-center justify-content-center text-truncate',
-          isAtTop ? 'w-100' : 'flex-grow-1',
+          isAtTop ? '' : 'flex-grow-1',
         )}
+        style={isAtTop ? { width: '120px' } : undefined}
         onClick={onClickNext}
         disabled={disabled}
         as={disabled ? undefined : Link}
@@ -95,7 +96,7 @@ const UnitNavigation = ({
             <CourseOutlineTrigger isMobileView />
           </div>
           {/* Container for right-aligned triggers with spacing */}
-          <div className="d-flex align-items-center mr-4">
+          <div className="d-flex align-items-center mr-2">
             <SidebarTriggers className="mx-1" />
           </div>
         </div>
