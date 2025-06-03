@@ -65,7 +65,10 @@ const UnitNavigation = ({
         variant="outline-primary"
         className={classNames(
           'next-button d-flex align-items-center justify-content-center',
-          { 'w-100': !isAtTop },
+          {
+            'w-100': !isAtTop,
+            'flex-grow-1': isAtTop,
+          },
         )}
         onClick={onClickNext}
         disabled={disabled}
