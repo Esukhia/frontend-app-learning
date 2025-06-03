@@ -36,8 +36,13 @@ const UnitNavigation = ({
       <Button
         variant="outline-secondary"
         className={classNames(
-          'previous-button mr-sm-2 d-flex align-items-center justify-content-center',
-          { 'w-100': !isAtTop },
+          'previous-button d-flex align-items-center justify-content-center',
+          {
+            'w-100': !isAtTop,
+            'mr-sm-2': isAtTop,
+            'mr-2': !isAtTop,
+            'flex-grow-1': isAtTop,
+          },
         )}
         disabled={disabled}
         onClick={onClickPrevious}
