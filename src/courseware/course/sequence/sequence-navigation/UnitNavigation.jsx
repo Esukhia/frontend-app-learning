@@ -80,14 +80,16 @@ const UnitNavigation = ({
   return (
     <div className={classNames('unit-navigation d-flex align-items-center justify-content-between', { 'top-unit-navigation mb-2.5 w-100 mt-n4.5': isAtTop })}>
       {isAtTop && (
-        <div className="d-flex ml-auto mr-2">
-          <SidebarTriggers />
+        <div className="d-flex ml-auto mr-3">
+          <SidebarTriggers className="mx-1" />
         </div>
       )}
 
       <div className={classNames('d-flex align-items-center', { 'w-100 justify-content-between': !isAtTop })}>
         {renderPreviousButton()}
-        {renderNextButton()}
+        <div className="ml-2">
+          {renderNextButton()}
+        </div>
       </div>
 
     </div>
