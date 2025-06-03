@@ -19,12 +19,6 @@ import UnitNavigationEffortEstimate from './UnitNavigationEffortEstimate';
 import { useSequenceNavigationMetadata } from './hooks';
 import messages from './messages';
 
-/**
- * UnitNavigation component
- *
- * Provides navigation controls for course units, including previous/next buttons
- * and course outline/sidebar triggers when positioned at the top of the page.
- */
 const UnitNavigation = ({
   intl,
   sequenceId,
@@ -33,12 +27,10 @@ const UnitNavigation = ({
   onClickNext,
   isAtTop,
 }) => {
-  // Get sequence navigation data (first/last unit status and navigation links)
   const {
     isFirstUnit, isLastUnit, nextLink, previousLink,
   } = useSequenceNavigationMetadata(sequenceId, unitId);
 
-  // Get courseId from Redux store
   const { courseId } = useSelector(state => state.courseware);
 
   // Get arrow direction based on RTL settings
@@ -46,12 +38,9 @@ const UnitNavigation = ({
   const prevArrow = isRtl(locale) ? faChevronRight : faChevronLeft;
   const nextArrow = isRtl(locale) ? faChevronLeft : faChevronRight;
 
-  /**
-   * Renders the previous button with appropriate styling and behavior
-   * Disables the button if user is at the first unit
-   */
   const renderPreviousButton = () => {
     const disabled = isFirstUnit;
+    const buttonText = intl.formatMessage(messages.previousButton);
     return (
       <Button
         variant="outline-secondary"
@@ -64,17 +53,14 @@ const UnitNavigation = ({
         as={disabled ? undefined : Link}
         to={disabled ? undefined : previousLink}
       >
-        <FontAwesomeIcon icon={prevArrow} className="mr-2" size="sm" />
-        {intl.formatMessage(messages.previousButton)}
+        <span className="d-flex align-items-center">
+          <FontAwesomeIcon icon={prevArrow} className="mr-2" size="sm" />
+          {buttonText}
+        </span>
       </Button>
     );
   };
 
-  /**
-   * Renders the next button with appropriate styling and behavior
-   * Shows exit text if user is at the last unit
-   * Disables the button if user is at the last unit and exit is not active
-   */
   const renderNextButton = () => {
     const { exitActive, exitText } = GetCourseExitNavigation(courseId, intl);
     const buttonText = (isLastUnit && exitText) ? exitText : intl.formatMessage(messages.nextButton);
@@ -94,15 +80,11 @@ const UnitNavigation = ({
         <UnitNavigationEffortEstimate sequenceId={sequenceId} unitId={unitId}>
           {buttonText}
         </UnitNavigationEffortEstimate>
-        <FontAwesomeIcon icon={nextArrow} className="ml-2" size="sm" />
+        <FontAwesomeIcon icon={nextArrow} className="ml-2" size="sm" aria-hidden="false" />
       </Button>
     );
   };
 
-  /**
-   * Main render function
-   * Renders different layouts based on whether the navigation is at the top or bottom
-   */
   return (
     <div className={classNames('unit-navigation d-flex align-items-center justify-content-between', { 'top-unit-navigation mb-2.5 w-100 mt-n4.5': isAtTop })}>
       {/* Top navigation area with course outline and sidebar triggers */}
@@ -151,9 +133,6 @@ UnitNavigation.propTypes = {
   isAtTop: PropTypes.bool,
 };
 
-/**
- * Default props for UnitNavigation component
- */
 UnitNavigation.defaultProps = {
   unitId: null,
   isAtTop: false,
