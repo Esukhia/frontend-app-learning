@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Stack } from '@openedx/paragon';
+import { Button, Card } from '@openedx/paragon';
 import { Forum } from '@openedx/paragon/icons';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { ensureConfig, getConfig } from '@edx/frontend-platform';
@@ -51,11 +51,12 @@ const StartOrResumeCourseCard = ({ intl }) => {
       <Card.Header
         title={hasVisitedCourse ? intl.formatMessage(messages.resumeBlurb) : intl.formatMessage(messages.startBlurb)}
         actions={(
-          <Stack direction="horizontal" gap={3}>
+          <div className="d-flex flex-column flex-lg-row">
             <Button
               variant="outline-brand"
               href={discussionsUrl}
               iconBefore={Forum}
+              className="mb-2 mb-lg-0 mr-lg-2"
             >
               {intl.formatMessage({ id: 'start.discussion', defaultMessage: 'Start Discussion' })}
             </Button>
@@ -66,7 +67,7 @@ const StartOrResumeCourseCard = ({ intl }) => {
             >
               {hasVisitedCourse ? intl.formatMessage(messages.resume) : intl.formatMessage(messages.start)}
             </Button>
-          </Stack>
+          </div>
         )}
       />
       {/* Footer is needed for internal vertical spacing to work out. If you can remove, be my guest */}
