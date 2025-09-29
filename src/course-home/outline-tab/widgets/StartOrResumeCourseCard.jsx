@@ -1,11 +1,15 @@
 import React from 'react';
-import { Button, Card } from '@openedx/paragon';
+import { Button, Card, Stack } from '@openedx/paragon';
+import { Forum } from '@openedx/paragon/icons';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { ensureConfig, getConfig } from '@edx/frontend-platform';
 
 import { useSelector } from 'react-redux';
 import { sendTrackingLogEvent } from '@edx/frontend-platform/analytics';
 import messages from '../messages';
 import { useModel } from '../../../generic/model-store';
+
+ensureConfig(['DISCUSSIONS_MFE_BASE_URL']);
 
 const StartOrResumeCourseCard = ({ intl }) => {
   const {
@@ -28,6 +32,8 @@ const StartOrResumeCourseCard = ({ intl }) => {
     },
   } = useModel('outline', courseId);
 
+  const discussionsUrl = `${getConfig().DISCUSSIONS_MFE_BASE_URL}/${courseId}`;
+
   if (!resumeCourseUrl) {
     return null;
   }
@@ -45,14 +51,22 @@ const StartOrResumeCourseCard = ({ intl }) => {
       <Card.Header
         title={hasVisitedCourse ? intl.formatMessage(messages.resumeBlurb) : intl.formatMessage(messages.startBlurb)}
         actions={(
-          <Button
-            variant="brand"
-            block
-            href={resumeCourseUrl}
-            onClick={() => logResumeCourseClick()}
-          >
-            {hasVisitedCourse ? intl.formatMessage(messages.resume) : intl.formatMessage(messages.start)}
-          </Button>
+          <Stack direction="horizontal" gap={3}>
+            <Button
+              variant="outline-brand"
+              href={discussionsUrl}
+              iconBefore={Forum}
+            >
+              {intl.formatMessage({ id: 'start.discussion', defaultMessage: 'Start Discussion' })}
+            </Button>
+            <Button
+              variant="brand"
+              href={resumeCourseUrl}
+              onClick={() => logResumeCourseClick()}
+            >
+              {hasVisitedCourse ? intl.formatMessage(messages.resume) : intl.formatMessage(messages.start)}
+            </Button>
+          </Stack>
         )}
       />
       {/* Footer is needed for internal vertical spacing to work out. If you can remove, be my guest */}
