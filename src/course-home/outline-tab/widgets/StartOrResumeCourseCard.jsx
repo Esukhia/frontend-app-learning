@@ -53,19 +53,20 @@ const StartOrResumeCourseCard = ({ intl }) => {
         actions={(
           <div className="d-flex flex-column flex-lg-row">
             <Button
-              variant="outline-brand"
-              href={discussionsUrl}
-              iconBefore={Forum}
-              className="mb-2 mb-lg-0 mr-lg-2"
-            >
-              {intl.formatMessage({ id: 'start.discussion', defaultMessage: 'Start Discussion' })}
-            </Button>
-            <Button
               variant="brand"
               href={resumeCourseUrl}
               onClick={() => logResumeCourseClick()}
+              className="order-1 order-lg-2 mb-2 mb-lg-0"
             >
               {hasVisitedCourse ? intl.formatMessage(messages.resume) : intl.formatMessage(messages.start)}
+            </Button>
+            <Button
+              variant="outline-brand"
+              href={discussionsUrl}
+              iconBefore={Forum}
+              className="order-2 order-lg-1 mr-lg-2"
+            >
+              {intl.formatMessage({ id: 'start.discussion', defaultMessage: 'Start Discussion' })}
             </Button>
           </div>
         )}
