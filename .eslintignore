@@ -6,3 +6,4 @@ jest.config.js
 env.config.jsx
 example.env.config.jsx
 frontend-component-footer/
+frontend-component-header/
