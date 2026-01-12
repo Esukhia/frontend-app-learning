@@ -8,6 +8,37 @@ import courseOutlineMessages from '@src/course-home/outline-tab/messages';
 import CompletionIcon from './CompletionIcon';
 import { useCourseOutlineSidebar } from '../hooks';
 
+const renderTibetanText = (text) => {
+  if (!text) {
+    return null;
+  }
+
+  const tibetanRegex = /[\u0F00-\u0FFF]+/g;
+  const parts = [];
+  let lastIndex = 0;
+
+  const matches = text.matchAll(tibetanRegex);
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const match of matches) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    parts.push(
+      <span key={match.index} style={{ fontFamily: 'Jomolhari, serif', fontSize: '1.2em' }}>
+        {match[0]}
+      </span>,
+    );
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : text;
+};
+
 const SidebarSection = ({ section, handleSelectSection }) => {
   const intl = useIntl();
   const {
@@ -20,6 +51,9 @@ const SidebarSection = ({ section, handleSelectSection }) => {
 
   const { activeSequenceId, isEnabledCompletionTracking } = useCourseOutlineSidebar();
   const isActiveSection = sequenceIds.includes(activeSequenceId);
+  const completionSrText = intl.formatMessage(
+    complete ? courseOutlineMessages.completedSection : courseOutlineMessages.incompleteSection,
+  );
 
   const sectionTitle = (
     <>
@@ -27,15 +61,12 @@ const SidebarSection = ({ section, handleSelectSection }) => {
         <CompletionIcon completionStat={completionStat} enabled={isEnabledCompletionTracking} />
       </div>
       <div className="col-10 ml-3 p-0 flex-grow-1 text-dark-500 text-left text-break">
-        {title}
+        {renderTibetanText(title)}
         {isEnabledCompletionTracking && (
           <span className="sr-only">
-            , {intl.formatMessage(complete
-            ? courseOutlineMessages.completedSection
-            : courseOutlineMessages.incompleteSection)}
+            , {completionSrText}
           </span>
         )}
-
       </div>
     </>
   );

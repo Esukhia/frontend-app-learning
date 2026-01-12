@@ -15,6 +15,37 @@ import { ID } from './constants';
 import { useCourseOutlineSidebar } from './hooks';
 import messages from './messages';
 
+const renderTibetanText = (text) => {
+  if (!text) {
+    return null;
+  }
+
+  const tibetanRegex = /[\u0F00-\u0FFF]+/g;
+  const parts = [];
+  let lastIndex = 0;
+
+  const matches = text.matchAll(tibetanRegex);
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const match of matches) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    parts.push(
+      <span key={match.index} style={{ fontFamily: 'Jomolhari, serif', fontSize: '1.2em' }}>
+        {match[0]}
+      </span>,
+    );
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : text;
+};
+
 const CourseOutlineTray = () => {
   const intl = useIntl();
   const [selectedSection, setSelectedSection] = useState(null);
@@ -60,7 +91,7 @@ const CourseOutlineTray = () => {
           className="outline-sidebar-heading p-0 mb-0 text-left text-dark-500"
           onClick={handleBackToSectionLevel}
         >
-          {backButtonTitle}
+          {renderTibetanText(backButtonTitle)}
         </Button>
       ) : (
         <span className="outline-sidebar-heading mb-0 h4 text-dark-500">

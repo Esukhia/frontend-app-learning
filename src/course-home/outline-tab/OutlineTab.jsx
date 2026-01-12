@@ -28,6 +28,37 @@ import ProctoringInfoPanel from './widgets/ProctoringInfoPanel';
 import AccountActivationAlert from '../../alerts/logistration-alert/AccountActivationAlert';
 import CourseHomeSectionOutlineSlot from '../../plugin-slots/CourseHomeSectionOutlineSlot';
 
+const renderCourseTitle = (text) => {
+  if (!text) {
+    return null;
+  }
+
+  const tibetanRegex = /[\u0F00-\u0FFF]+/g;
+  const parts = [];
+  let lastIndex = 0;
+
+  const matches = text.matchAll(tibetanRegex);
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const match of matches) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    parts.push(
+      <span key={match.index} style={{ fontFamily: 'Jomolhari, serif' }}>
+        {match[0]}
+      </span>,
+    );
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : text;
+};
+
 const OutlineTab = () => {
   const intl = useIntl();
   const {
@@ -120,7 +151,7 @@ const OutlineTab = () => {
     <>
       <div data-learner-type={learnerType} className="row w-100 mx-0 my-3 justify-content-between">
         <div className="col-12 col-sm-auto p-0">
-          <div role="heading" aria-level="1" className="h2">{title}</div>
+          <div role="heading" aria-level="1" className="h2">{renderCourseTitle(title)}</div>
         </div>
       </div>
       <div className="row course-outline-tab">
