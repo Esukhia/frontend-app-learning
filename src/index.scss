@@ -26,6 +26,7 @@
       top: 0.1em;
       height: 1.75rem;
       margin-right: 1rem;
+
       img {
         display: block;
         height: 100%;
@@ -171,6 +172,7 @@
 
   .sequence-navigation-tabs {
     overflow: auto;
+
     .btn {
       flex-basis: 100%;
       min-width: 3rem;
@@ -185,7 +187,7 @@
     max-width: 28rem;
   }
 
-  .navigation-tab-width-medium{
+  .navigation-tab-width-medium {
     max-width: 23.5rem;
   }
 
@@ -200,7 +202,7 @@
       justify-content: flex-start;
       border-right: 0;
 
-      & + .btn {
+      &+.btn {
         border-top: 0;
       }
 
@@ -348,17 +350,17 @@
   .next-button {
     flex-basis: 75%;
 
-     @media (max-width: -1 + map-get($grid-breakpoints, "sm")) {
-       flex-basis: 100%;
-     }
+    @media (max-width: -1 + map-get($grid-breakpoints, "sm")) {
+      flex-basis: 100%;
+    }
   }
 
   .previous-button {
     flex-basis: 25%;
 
-     @media (max-width: -1 + map-get($grid-breakpoints, "sm")) {
-       flex-basis: 100%;
-     }
+    @media (max-width: -1 + map-get($grid-breakpoints, "sm")) {
+      flex-basis: 100%;
+    }
   }
 }
 
@@ -385,7 +387,7 @@
   // I don't like this.  We need to set a height of 100% on a div created by react-focus-on, a
   // package we use in our Modal.  That div has no class name or ID, so instead we're uniquely
   // identifying it by based on a unique attribute it has which its siblings don't share.
-  > div[data-focus-lock-disabled="false"] {
+  >div[data-focus-lock-disabled="false"] {
     height: 100%;
   }
 
@@ -407,6 +409,7 @@
   &.grades {
     overflow: hidden;
     max-height: 852px;
+
     @media screen and (min-width: 992px) {
       max-height: 920px;
     }

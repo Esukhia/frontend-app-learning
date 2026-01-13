@@ -13,6 +13,37 @@ import { useModel } from '../../generic/model-store';
 import genericMessages from '../../generic/messages';
 import messages from './messages';
 
+const renderTibetanText = (text) => {
+  if (!text) {
+    return null;
+  }
+
+  const tibetanRegex = /[\u0F00-\u0FFF]+/g;
+  const parts = [];
+  let lastIndex = 0;
+
+  const matches = text.matchAll(tibetanRegex);
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const match of matches) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    parts.push(
+      <span key={match.index} style={{ fontFamily: 'Jomolhari, serif', fontSize: '1.2em' }}>
+        {match[0]}
+      </span>,
+    );
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : text;
+};
+
 const Section = ({
   courseId,
   defaultOpen,
@@ -40,7 +71,7 @@ const Section = ({
 
   useEffect(() => {
     setOpen(defaultOpen);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const sectionTitle = (
@@ -65,22 +96,22 @@ const Section = ({
         )}
       </div>
       <div className="col-7 ml-3 p-0 font-weight-bold text-dark-500">
-        <span className="align-middle col-6">{title}</span>
+        <span className="align-middle col-6">{renderTibetanText(title)}</span>
         <span className="sr-only">
           , {intl.formatMessage(complete ? messages.completedSection : messages.incompleteSection)}
         </span>
       </div>
       {hideFromTOC && (
-      <div className="row">
-        {hideFromTOC && (
-          <span className="small d-flex align-content-end">
-            <Icon className="mr-2" src={DisabledVisible} data-testid="hide-from-toc-section-icon" />
-            <span data-testid="hide-from-toc-section-text">
-              {intl.formatMessage(messages.hiddenSection)}
+        <div className="row">
+          {hideFromTOC && (
+            <span className="small d-flex align-content-end">
+              <Icon className="mr-2" src={DisabledVisible} data-testid="hide-from-toc-section-icon" />
+              <span data-testid="hide-from-toc-section-text">
+                {intl.formatMessage(messages.hiddenSection)}
+              </span>
             </span>
-          </span>
-        )}
-      </div>
+          )}
+        </div>
       )}
     </div>
   );
