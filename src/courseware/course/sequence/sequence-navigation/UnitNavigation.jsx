@@ -1,14 +1,17 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { useIntl } from '@edx/frontend-platform/i18n';
+import { useContext } from 'react';
 
 // Course components
 import { GetCourseExitNavigation } from '../../course-exit';
 import SidebarTriggers from '../../sidebar/SidebarTriggers';
 import { Trigger as CourseOutlineTrigger } from '../../sidebar/sidebars/course-outline';
 
+// Local components and utilities
 import { useSequenceNavigationMetadata } from './hooks';
 import messages from './messages';
+import UserMessagesContext from '../../../../generic/user-messages/UserMessagesContext';
 import PreviousButton from './generic/PreviousButton';
 import NextButton from './generic/NextButton';
 import { NextUnitTopNavTriggerSlot } from '../../../../plugin-slots/NextUnitTopNavTriggerSlot';
@@ -26,10 +29,8 @@ const UnitNavigation = ({
     isFirstUnit, isLastUnit, nextLink, previousLink,
   } = useSequenceNavigationMetadata(sequenceId, unitId);
 
-  // Get arrow direction based on RTL settings
-  const locale = getLocale();
-  const prevArrow = isRtl(locale) ? faChevronRight : faChevronLeft;
-  const nextArrow = isRtl(locale) ? faChevronLeft : faChevronRight;
+  const { messages: userMessages } = useContext(UserMessagesContext);
+  const hasSequenceAlerts = userMessages.some(message => message.topic === 'sequence');
 
   const renderPreviousButton = () => {
     const buttonStyle = `previous-button ${isAtTop ? 'text-dark mr-3' : 'justify-content-center'}`;
@@ -46,7 +47,6 @@ const UnitNavigation = ({
     );
   };
 
-  
   const renderNextButton = () => {
     const { exitActive, exitText } = GetCourseExitNavigation(courseId, intl);
     const buttonText = (isLastUnit && exitText) ? exitText : intl.formatMessage(messages.nextButton);
