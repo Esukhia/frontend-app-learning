@@ -8,6 +8,7 @@ import {
   injectIntl, intlShape, isRtl, getLocale,
 } from '@edx/frontend-platform/i18n';
 import { useSelector } from 'react-redux';
+import { useContext } from 'react';
 
 // Course components
 import { GetCourseExitNavigation } from '../../course-exit';
@@ -18,6 +19,7 @@ import { Trigger as CourseOutlineTrigger } from '../../sidebar/sidebars/course-o
 import UnitNavigationEffortEstimate from './UnitNavigationEffortEstimate';
 import { useSequenceNavigationMetadata } from './hooks';
 import messages from './messages';
+import UserMessagesContext from '../../../../generic/user-messages/UserMessagesContext';
 
 const UnitNavigation = ({
   intl,
@@ -32,6 +34,8 @@ const UnitNavigation = ({
   } = useSequenceNavigationMetadata(sequenceId, unitId);
 
   const { courseId } = useSelector(state => state.courseware);
+  const { messages: userMessages } = useContext(UserMessagesContext);
+  const hasSequenceAlerts = userMessages.some(message => message.topic === 'sequence');
 
   // Get arrow direction based on RTL settings
   const locale = getLocale();
@@ -87,7 +91,7 @@ const UnitNavigation = ({
   };
 
   return (
-    <div className={classNames('unit-navigation d-flex align-items-center justify-content-between', { 'top-unit-navigation mb-2.5 w-100 mt-n4.5': isAtTop })}>
+    <div className={classNames('unit-navigation d-flex align-items-center justify-content-between', { 'top-unit-navigation mb-2.5 w-100 mt-n4.5': isAtTop && !hasSequenceAlerts, 'top-unit-navigation mb-2.5 w-100': isAtTop && hasSequenceAlerts })}>
       {/* Top navigation area with course outline and sidebar triggers */}
       {isAtTop && (
         <div className="d-flex align-items-center justify-content-between w-100">
