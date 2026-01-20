@@ -10,6 +10,37 @@ import { getCourseOutline } from '@src/courseware/data/selectors';
 import messages from '../messages';
 import UnitIcon, { UNIT_ICON_TYPES } from './UnitIcon';
 
+const renderTibetanText = (text) => {
+  if (!text) {
+    return null;
+  }
+
+  const tibetanRegex = /[\u0F00-\u0FFF]+/g;
+  const parts = [];
+  let lastIndex = 0;
+
+  const matches = text.matchAll(tibetanRegex);
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const match of matches) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    parts.push(
+      <span key={match.index} style={{ fontFamily: 'Jomolhari, serif', fontSize: '1.2em' }}>
+        {match[0]}
+      </span>,
+    );
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : text;
+};
+
 const SidebarUnit = ({
   id,
   intl,
@@ -69,7 +100,7 @@ const SidebarUnit = ({
         </div>
         <div className="col-10 p-0 ml-3 text-break">
           <span className="align-middle">
-            {title}
+            {renderTibetanText(title)}
           </span>
           <span className="sr-only">
             , {intl.formatMessage(complete ? messages.completedUnit : messages.incompleteUnit)}

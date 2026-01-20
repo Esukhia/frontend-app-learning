@@ -11,6 +11,37 @@ import CompletionIcon from './CompletionIcon';
 import SidebarUnit from './SidebarUnit';
 import { UNIT_ICON_TYPES } from './UnitIcon';
 
+const renderTibetanText = (text) => {
+  if (!text) {
+    return null;
+  }
+
+  const tibetanRegex = /[\u0F00-\u0FFF]+/g;
+  const parts = [];
+  let lastIndex = 0;
+
+  const matches = text.matchAll(tibetanRegex);
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const match of matches) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    parts.push(
+      <span key={match.index} style={{ fontFamily: 'Jomolhari, serif', fontSize: '1.2em' }}>
+        {match[0]}
+      </span>,
+    );
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : text;
+};
+
 const SidebarSequence = ({
   intl,
   courseId,
@@ -32,6 +63,9 @@ const SidebarSequence = ({
   const { units = {} } = useSelector(getCourseOutline);
   const activeSequenceId = useSelector(getSequenceId);
   const isActiveSequence = id === activeSequenceId;
+  const completionSrText = intl.formatMessage(
+    complete ? courseOutlineMessages.completedAssignment : courseOutlineMessages.incompleteAssignment,
+  );
 
   const sectionTitle = (
     <>
@@ -39,12 +73,10 @@ const SidebarSequence = ({
         <CompletionIcon completionStat={completionStat} />
       </div>
       <div className="col-9 d-flex flex-column flex-grow-1 ml-3 mr-auto p-0 text-left">
-        <span className="align-middle text-dark-500">{title}</span>
+        <span className="align-middle text-dark-500">{renderTibetanText(title)}</span>
         {specialExamInfo && <span className="align-middle small text-muted">{specialExamInfo}</span>}
         <span className="sr-only">
-          , {intl.formatMessage(complete
-          ? courseOutlineMessages.completedAssignment
-          : courseOutlineMessages.incompleteAssignment)}
+          , {completionSrText}
         </span>
       </div>
     </>

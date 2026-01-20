@@ -17,6 +17,37 @@ import EffortEstimate from '../../shared/effort-estimate';
 import { useModel } from '../../generic/model-store';
 import messages from './messages';
 
+const renderTibetanText = (text) => {
+  if (!text) {
+    return null;
+  }
+
+  const tibetanRegex = /[\u0F00-\u0FFF]+/g;
+  const parts = [];
+  let lastIndex = 0;
+
+  const matches = text.matchAll(tibetanRegex);
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const match of matches) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    parts.push(
+      <span key={match.index} style={{ fontFamily: 'Jomolhari, serif', fontSize: '1.2em' }}>
+        {match[0]}
+      </span>,
+    );
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : text;
+};
+
 const SequenceLink = ({
   id,
   intl,
@@ -38,8 +69,8 @@ const SequenceLink = ({
 
   const timezoneFormatArgs = userTimezone ? { timeZone: userTimezone } : {};
 
-  const coursewareUrl = <Link to={`/course/${courseId}/${id}`}>{title}</Link>;
-  const displayTitle = showLink ? coursewareUrl : title;
+  const coursewareUrl = <Link to={`/course/${courseId}/${id}`}>{renderTibetanText(title)}</Link>;
+  const displayTitle = showLink ? coursewareUrl : renderTibetanText(title);
 
   const dueDateMessage = (
     <FormattedMessage
