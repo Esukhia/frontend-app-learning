@@ -403,6 +403,12 @@ export async function getOutlineTabData(courseId) {
   };
 }
 
+export async function getOutlineBlocksData(courseId) {
+  const url = `${getConfig().LMS_BASE_URL}/api/course_home/v1/outline_blocks/${courseId}`;
+  const { data } = await getAuthenticatedHttpClient().get(url);
+  return data;
+}
+
 export async function postCourseDeadlines(courseId, model) {
   const url = new URL(`${getConfig().LMS_BASE_URL}/api/course_experience/v1/reset_course_deadlines`);
   return getAuthenticatedHttpClient().post(url.href, {

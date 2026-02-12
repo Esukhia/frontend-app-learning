@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Collapsible, IconButton, Icon } from '@openedx/paragon';
 import { faCheckCircle as fasCheckCircle, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -12,6 +13,7 @@ import { useModel } from '../../generic/model-store';
 
 import genericMessages from '../../generic/messages';
 import messages from './messages';
+import { fetchOutlineBlocks } from '../data';
 
 const renderTibetanText = (text) => {
   if (!text) {
@@ -63,6 +65,7 @@ const Section = ({
     },
   } = useModel('outline', courseId);
 
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(defaultOpen);
 
   useEffect(() => {
@@ -123,7 +126,10 @@ const Section = ({
         styling="card-lg"
         title={sectionTitle}
         open={open}
-        onToggle={() => { setOpen(!open); }}
+        onToggle={() => {
+          if (!open) { dispatch(fetchOutlineBlocks(courseId)); }
+          setOpen(!open);
+        }}
         iconWhenClosed={(
           <IconButton
             alt={intl.formatMessage(messages.openSection)}

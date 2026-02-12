@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
@@ -13,7 +13,7 @@ import CourseHandouts from './widgets/CourseHandouts';
 import StartOrResumeCourseCard from './widgets/StartOrResumeCourseCard';
 import WeeklyLearningGoalCard from './widgets/WeeklyLearningGoalCard';
 import CourseTools from './widgets/CourseTools';
-import { fetchOutlineTab } from '../data';
+import { fetchOutlineTab, fetchOutlineBlocks } from '../data';
 import messages from './messages';
 import Section from './Section';
 import ShiftDatesAlert from '../suggested-schedule-messaging/ShiftDatesAlert';
@@ -98,6 +98,7 @@ const OutlineTab = ({ intl }) => {
   } = useModel('coursewareMeta', courseId);
 
   const [expandAll, setExpandAll] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const eventProperties = {
@@ -195,7 +196,14 @@ const OutlineTab = ({ intl }) => {
             <>
               <div className="row w-100 m-0 mb-3 justify-content-end">
                 <div className="col-12 col-md-auto p-0">
-                  <Button variant="outline-primary" block onClick={() => { setExpandAll(!expandAll); }}>
+                  <Button
+                    variant="outline-primary"
+                    block
+                    onClick={() => {
+                      if (!expandAll) { dispatch(fetchOutlineBlocks(courseId)); }
+                      setExpandAll(!expandAll);
+                    }}
+                  >
                     {expandAll ? intl.formatMessage(messages.collapseAll) : intl.formatMessage(messages.expandAll)}
                   </Button>
                 </div>

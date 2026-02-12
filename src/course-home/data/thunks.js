@@ -5,6 +5,7 @@ import {
   getCourseHomeCourseMetadata,
   getDatesTabData,
   getOutlineTabData,
+  getOutlineBlocksData,
   getProgressTabData,
   postCourseDeadlines,
   deprecatedPostCourseGoals,
@@ -14,6 +15,7 @@ import {
   getLiveTabIframe,
   getCoursewareSearchEnabledFlag,
   searchCourseContentFromAPI,
+  normalizeOutlineBlocks,
 } from './api';
 
 import {
@@ -26,6 +28,9 @@ import {
   fetchTabRequest,
   fetchTabSuccess,
   setCallToActionToast,
+  fetchOutlineBlocksRequest,
+  fetchOutlineBlocksSuccess,
+  fetchOutlineBlocksFailure,
 } from './slice';
 
 import mapSearchResponse from '../courseware-search/map-search-response';
@@ -103,6 +108,55 @@ export function fetchLiveTab(courseId) {
 
 export function fetchDiscussionTab(courseId) {
   return fetchTab(courseId, 'discussion');
+}
+
+export function fetchOutlineBlocks(courseId) {
+  return async (dispatch, getState) => {
+    const { outlineBlocksStatus } = getState().courseHome;
+    if (outlineBlocksStatus === 'loaded' || outlineBlocksStatus === 'loading') {
+      return;
+    }
+    dispatch(fetchOutlineBlocksRequest());
+    try {
+      const data = await getOutlineBlocksData(courseId);
+      dispatch(fetchOutlineBlocksSuccess(data.blocks));
+
+      const normalized = normalizeOutlineBlocks(courseId, data.blocks);
+      const outlineModel = getState().models.outline?.[courseId];
+      if (!outlineModel) { return; }
+
+      const mergedSections = { ...outlineModel.courseBlocks.sections };
+      Object.keys(mergedSections).forEach(sectionId => {
+        const blockData = normalized.sections[sectionId];
+        if (blockData) {
+          mergedSections[sectionId] = { ...mergedSections[sectionId], ...blockData };
+        }
+      });
+
+      const mergedSequences = { ...outlineModel.courseBlocks.sequences };
+      Object.keys(mergedSequences).forEach(seqId => {
+        const blockData = normalized.sequences[seqId];
+        if (blockData) {
+          mergedSequences[seqId] = { ...mergedSequences[seqId], ...blockData };
+        }
+      });
+
+      dispatch(updateModel({
+        modelType: 'outline',
+        model: {
+          id: courseId,
+          courseBlocks: {
+            ...outlineModel.courseBlocks,
+            sections: mergedSections,
+            sequences: mergedSequences,
+          },
+        },
+      }));
+    } catch (e) {
+      dispatch(fetchOutlineBlocksFailure());
+      logError(e);
+    }
+  };
 }
 
 export function dismissWelcomeMessage(courseId) {

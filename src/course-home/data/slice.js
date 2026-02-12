@@ -18,6 +18,8 @@ const slice = createSlice({
     toastBodyLink: null,
     toastHeader: '',
     showSearch: false,
+    outlineBlocksStatus: 'idle',
+    outlineBlocks: null,
   },
   reducers: {
     fetchProctoringInfoResolved: (state) => {
@@ -34,6 +36,8 @@ const slice = createSlice({
     fetchTabRequest: (state, { payload }) => {
       state.courseId = payload.courseId;
       state.courseStatus = LOADING;
+      state.outlineBlocksStatus = 'idle';
+      state.outlineBlocks = null;
     },
     fetchTabSuccess: (state, { payload }) => {
       state.courseId = payload.courseId;
@@ -53,6 +57,16 @@ const slice = createSlice({
     setShowSearch: (state, { payload }) => {
       state.showSearch = payload;
     },
+    fetchOutlineBlocksRequest: (state) => {
+      state.outlineBlocksStatus = LOADING;
+    },
+    fetchOutlineBlocksSuccess: (state, { payload }) => {
+      state.outlineBlocksStatus = LOADED;
+      state.outlineBlocks = payload;
+    },
+    fetchOutlineBlocksFailure: (state) => {
+      state.outlineBlocksStatus = FAILED;
+    },
   },
 });
 
@@ -64,6 +78,9 @@ export const {
   fetchTabSuccess,
   setCallToActionToast,
   setShowSearch,
+  fetchOutlineBlocksRequest,
+  fetchOutlineBlocksSuccess,
+  fetchOutlineBlocksFailure,
 } = slice.actions;
 
 export const {
