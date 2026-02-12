@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   FormattedMessage,
@@ -16,6 +17,7 @@ import { Block } from '@openedx/paragon/icons';
 import EffortEstimate from '../../shared/effort-estimate';
 import { useModel } from '../../generic/model-store';
 import messages from './messages';
+import './SequenceLink.scss';
 
 const renderTibetanText = (text) => {
   if (!text) {
@@ -66,6 +68,7 @@ const SequenceLink = ({
   const {
     userTimezone,
   } = useModel('outline', courseId);
+  const { outlineBlocksStatus } = useSelector(state => state.courseHome);
 
   const timezoneFormatArgs = userTimezone ? { timeZone: userTimezone } : {};
 
@@ -141,6 +144,7 @@ const SequenceLink = ({
           </div>
           <div className="col-10 p-0 ml-3 text-break">
             <span className="align-middle">{displayTitle}</span>
+            {outlineBlocksStatus === 'loading' && <span className="loading-dots" />}
             <span className="sr-only">
               , {intl.formatMessage(complete ? messages.completedAssignment : messages.incompleteAssignment)}
             </span>
