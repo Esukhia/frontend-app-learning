@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { useIntl } from '@edx/frontend-platform/i18n';
-import { IconButton } from '@openedx/paragon';
+import { IconButton, OverlayTrigger, Tooltip } from '@openedx/paragon';
 import { MenuOpen as MenuOpenIcon } from '@openedx/paragon/icons';
 
 import { useCourseOutlineSidebar } from './hooks';
@@ -25,17 +25,35 @@ const CourseOutlineTrigger = ({ isMobileView }) => {
   }
 
   return (
-    <div className={classNames('outline-sidebar-heading-wrapper bg-light-200 collapsed align-self-start', {
-      'flex-shrink-0 mr-4 p-2.5': isDisplayForDesktopView,
+    <div className={classNames('outline-sidebar-heading-wrapper collapsed align-self-start', {
+      'flex-shrink-0 mr-4': isDisplayForDesktopView,
       'p-0': isDisplayForMobileView,
     })}
     >
-      <IconButton
-        alt={intl.formatMessage(messages.toggleCourseOutlineTrigger)}
-        className="outline-sidebar-toggle-btn flex-shrink-0 text-dark bg-light-200 rounded-0"
-        iconAs={MenuOpenIcon}
-        onClick={handleToggleCollapse}
-      />
+      <OverlayTrigger
+        placement="right"
+        overlay={(
+          <Tooltip id="course-outline-tooltip">
+            {intl.formatMessage(messages.toggleCourseOutlineTrigger)}
+          </Tooltip>
+        )}
+      >
+        <IconButton
+          alt={intl.formatMessage(messages.toggleCourseOutlineTrigger)}
+          className="outline-sidebar-toggle-btn flex-shrink-0"
+          iconAs={MenuOpenIcon}
+          onClick={handleToggleCollapse}
+          style={{
+            backgroundColor: '#FFFFFF',
+            border: '1px solid #E5E5E5',
+            borderRadius: '8px',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+            padding: '0.75rem',
+            transition: 'all 0.2s ease',
+            color: '#093055',
+          }}
+        />
+      </OverlayTrigger>
     </div>
   );
 };

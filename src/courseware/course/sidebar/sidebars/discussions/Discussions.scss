@@ -1,4 +1,6 @@
 .discussions-sidebar-frame {
+    border-radius: 8px;
+    
     @media (--pgn-size-breakpoint-max-width-xl) {
         max-height: calc(100vh - 65px);
     }

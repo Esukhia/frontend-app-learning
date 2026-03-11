@@ -10,11 +10,17 @@ import messages from '../../../messages';
 const NotificationIcon = ({
   status,
   notificationColor,
+  isActive,
 }) => {
   const intl = useIntl();
   return (
     <>
-      <Icon src={Notifications} className="m-0 m-auto" style={{ color: '#093055' }} alt={intl.formatMessage(messages.openNotificationTrigger)} />
+      <Icon
+        src={Notifications}
+        className="m-0 m-auto"
+        style={{ color: isActive ? '#FFFFFF' : '#093055' }}
+        alt={intl.formatMessage(messages.openNotificationTrigger)}
+      />
       {status === 'active'
         ? (
           <span
@@ -33,11 +39,13 @@ const NotificationIcon = ({
 
 NotificationIcon.defaultProps = {
   status: null,
+  isActive: false,
 };
 
 NotificationIcon.propTypes = {
   status: PropTypes.string,
   notificationColor: PropTypes.string.isRequired,
+  isActive: PropTypes.bool,
 };
 
 export default NotificationIcon;

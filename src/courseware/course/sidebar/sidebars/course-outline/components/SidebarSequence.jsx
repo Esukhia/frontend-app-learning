@@ -91,7 +91,7 @@ const SidebarSequence = ({
         open={open}
         onToggle={() => setOpen(!open)}
       >
-        <ol className="list-unstyled">
+        <ol className="list-unstyled mb-0">
           {unitIds.map((unitId, index) => (
             <SidebarUnit
               key={unitId}

@@ -8,7 +8,7 @@ const messages = defineMessages({
   },
   toggleCourseOutlineTrigger: {
     id: 'courseOutline.toggle.button',
-    defaultMessage: 'Toggle course outline tray',
+    defaultMessage: 'Course outline',
     description: 'Button for the learner to toggle the sidebar',
   },
   courseOutlineTitle: {

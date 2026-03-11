@@ -1,4 +1,19 @@
+@keyframes sidebarSlideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(1.5rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 #course-sidebar {
+    animation: sidebarSlideInRight 0.25s ease-out;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
     @media (--pgn-size-breakpoint-max-width-lg) {
         overflow-y: scroll;
         padding: 0 .625rem !important;
