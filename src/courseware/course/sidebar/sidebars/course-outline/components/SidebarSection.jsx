@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import { Button, Icon } from '@openedx/paragon';
 import { ChevronRight as ChevronRightIcon } from '@openedx/paragon/icons';
 
 import courseOutlineMessages from '@src/course-home/outline-tab/messages';
-import { getSequenceId } from '@src/courseware/data/selectors';
 import CompletionIcon from './CompletionIcon';
+import { useCourseOutlineSidebar } from '../hooks';
 
 const renderTibetanText = (text) => {
   if (!text) {
@@ -40,7 +39,8 @@ const renderTibetanText = (text) => {
   return parts.length > 0 ? parts : text;
 };
 
-const SidebarSection = ({ intl, section, handleSelectSection }) => {
+const SidebarSection = ({ section, handleSelectSection }) => {
+  const intl = useIntl();
   const {
     id,
     complete,
@@ -49,7 +49,7 @@ const SidebarSection = ({ intl, section, handleSelectSection }) => {
     completionStat,
   } = section;
 
-  const activeSequenceId = useSelector(getSequenceId);
+  const { activeSequenceId, isEnabledCompletionTracking } = useCourseOutlineSidebar();
   const isActiveSection = sequenceIds.includes(activeSequenceId);
   const completionSrText = intl.formatMessage(
     complete ? courseOutlineMessages.completedSection : courseOutlineMessages.incompleteSection,
@@ -58,13 +58,16 @@ const SidebarSection = ({ intl, section, handleSelectSection }) => {
   const sectionTitle = (
     <>
       <div className="col-auto p-0">
-        <CompletionIcon completionStat={completionStat} />
+        <CompletionIcon completionStat={completionStat} enabled={isEnabledCompletionTracking} />
       </div>
       <div className="col-10 ml-3 p-0 flex-grow-1 text-dark-500 text-left text-break">
         {renderTibetanText(title)}
-        <span className="sr-only">
-          , {completionSrText}
-        </span>
+        {isEnabledCompletionTracking && (
+          <span className="sr-only">
+            , {completionSrText}
+          </span>
+        )}
+
       </div>
     </>
   );
@@ -87,7 +90,6 @@ const SidebarSection = ({ intl, section, handleSelectSection }) => {
 };
 
 SidebarSection.propTypes = {
-  intl: intlShape.isRequired,
   section: PropTypes.shape({
     complete: PropTypes.bool,
     id: PropTypes.string,
@@ -101,4 +103,4 @@ SidebarSection.propTypes = {
   handleSelectSection: PropTypes.func.isRequired,
 };
 
-export default injectIntl(SidebarSection);
+export default SidebarSection;

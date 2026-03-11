@@ -1,4 +1,3 @@
-import { injectIntl } from '@edx/frontend-platform/i18n';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -26,4 +25,4 @@ SidebarTriggerBase.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-export default injectIntl(SidebarTriggerBase);
+export default SidebarTriggerBase;

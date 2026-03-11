@@ -1,13 +1,6 @@
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Button } from '@openedx/paragon';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import {
-  injectIntl, intlShape, isRtl, getLocale,
-} from '@edx/frontend-platform/i18n';
-import { useSelector } from 'react-redux';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import { useContext } from 'react';
 
 // Course components
@@ -16,52 +9,41 @@ import SidebarTriggers from '../../sidebar/SidebarTriggers';
 import { Trigger as CourseOutlineTrigger } from '../../sidebar/sidebars/course-outline';
 
 // Local components and utilities
-import UnitNavigationEffortEstimate from './UnitNavigationEffortEstimate';
 import { useSequenceNavigationMetadata } from './hooks';
 import messages from './messages';
 import UserMessagesContext from '../../../../generic/user-messages/UserMessagesContext';
+import PreviousButton from './generic/PreviousButton';
+import NextButton from './generic/NextButton';
+import { NextUnitTopNavTriggerSlot } from '../../../../plugin-slots/NextUnitTopNavTriggerSlot';
 
 const UnitNavigation = ({
-  intl,
   sequenceId,
   unitId,
   onClickPrevious,
   onClickNext,
   isAtTop,
+  courseId,
 }) => {
+  const intl = useIntl();
   const {
     isFirstUnit, isLastUnit, nextLink, previousLink,
   } = useSequenceNavigationMetadata(sequenceId, unitId);
 
-  const { courseId } = useSelector(state => state.courseware);
   const { messages: userMessages } = useContext(UserMessagesContext);
   const hasSequenceAlerts = userMessages.some(message => message.topic === 'sequence');
 
-  // Get arrow direction based on RTL settings
-  const locale = getLocale();
-  const prevArrow = isRtl(locale) ? faChevronRight : faChevronLeft;
-  const nextArrow = isRtl(locale) ? faChevronLeft : faChevronRight;
-
   const renderPreviousButton = () => {
-    const disabled = isFirstUnit;
-    const buttonText = intl.formatMessage(messages.previousButton);
+    const buttonStyle = `previous-button ${isAtTop ? 'text-dark mr-3' : 'justify-content-center'}`;
     return (
-      <Button
+      <PreviousButton
+        isFirstUnit={isFirstUnit}
         variant="outline-secondary"
-        className={classNames(
-          'previous-button d-flex align-items-center justify-content-center text-truncate',
-          isAtTop ? 'w-100' : 'flex-grow-1 mr-2',
-        )}
-        disabled={disabled}
+        buttonLabel={intl.formatMessage(messages.previousButton)}
+        buttonStyle={buttonStyle}
         onClick={onClickPrevious}
-        as={disabled ? undefined : Link}
-        to={disabled ? undefined : previousLink}
-      >
-        <span className="d-flex align-items-center">
-          <FontAwesomeIcon icon={prevArrow} className="mr-2" size="sm" />
-          {buttonText}
-        </span>
-      </Button>
+        previousLink={previousLink}
+        isAtTop={isAtTop}
+      />
     );
   };
 
@@ -69,24 +51,36 @@ const UnitNavigation = ({
     const { exitActive, exitText } = GetCourseExitNavigation(courseId, intl);
     const buttonText = (isLastUnit && exitText) ? exitText : intl.formatMessage(messages.nextButton);
     const disabled = isLastUnit && !exitActive;
+    const variant = 'outline-primary';
+    const buttonStyle = `next-button ${isAtTop ? 'text-dark' : 'justify-content-center'}`;
+
+    if (isAtTop) {
+      return (
+        <NextUnitTopNavTriggerSlot
+          {...{
+            variant,
+            buttonStyle,
+            buttonText,
+            disabled,
+            sequenceId,
+            nextLink,
+            onClickHandler: onClickNext,
+            isAtTop,
+          }}
+        />
+      );
+    }
+
     return (
-      <Button
-        variant="outline-primary"
-        className={classNames(
-          'next-button d-flex align-items-center justify-content-center text-truncate',
-          isAtTop ? '' : 'flex-grow-1',
-        )}
-        style={isAtTop ? { width: '120px' } : undefined}
-        onClick={onClickNext}
+      <NextButton
+        variant={variant}
+        buttonStyle={buttonStyle}
+        onClickHandler={onClickNext}
         disabled={disabled}
-        as={disabled ? undefined : Link}
-        to={disabled ? undefined : nextLink}
-      >
-        <UnitNavigationEffortEstimate sequenceId={sequenceId} unitId={unitId}>
-          {buttonText}
-        </UnitNavigationEffortEstimate>
-        <FontAwesomeIcon icon={nextArrow} className="ml-2" size="sm" aria-hidden="false" />
-      </Button>
+        buttonText={buttonText}
+        nextLink={nextLink}
+        hasEffortEstimate
+      />
     );
   };
 
@@ -130,7 +124,7 @@ const UnitNavigation = ({
  * PropTypes for UnitNavigation component
  */
 UnitNavigation.propTypes = {
-  intl: intlShape.isRequired,
+  courseId: PropTypes.string.isRequired,
   sequenceId: PropTypes.string.isRequired,
   unitId: PropTypes.string,
   onClickPrevious: PropTypes.func.isRequired,
@@ -143,4 +137,4 @@ UnitNavigation.defaultProps = {
   isAtTop: false,
 };
 
-export default injectIntl(UnitNavigation);
+export default UnitNavigation;

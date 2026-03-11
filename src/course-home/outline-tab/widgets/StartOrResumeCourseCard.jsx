@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card } from '@openedx/paragon';
 import { Forum } from '@openedx/paragon/icons';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import { ensureConfig, getConfig } from '@edx/frontend-platform';
 
 import { useSelector } from 'react-redux';
@@ -11,7 +11,8 @@ import { useModel } from '../../../generic/model-store';
 
 ensureConfig(['DISCUSSIONS_MFE_BASE_URL']);
 
-const StartOrResumeCourseCard = ({ intl }) => {
+const StartOrResumeCourseCard = () => {
+  const intl = useIntl();
   const {
     courseId,
   } = useSelector(state => state.courseHome);
@@ -78,8 +79,4 @@ const StartOrResumeCourseCard = ({ intl }) => {
   );
 };
 
-StartOrResumeCourseCard.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default injectIntl(StartOrResumeCourseCard);
+export default StartOrResumeCourseCard;

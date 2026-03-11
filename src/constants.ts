@@ -13,6 +13,8 @@ export const DECODE_ROUTES = {
     '/course/:courseId/:sequenceId/:unitId',
     '/course/:courseId/:sequenceId',
     '/course/:courseId',
+    '/preview/course/:courseId/:sequenceId/:unitId',
+    '/preview/course/:courseId/:sequenceId',
   ],
   REDIRECT_HOME: 'home/:courseId',
   REDIRECT_SURVEY: 'survey/:courseId',
@@ -20,7 +22,7 @@ export const DECODE_ROUTES = {
 
 export const ROUTES = {
   UNSUBSCRIBE: '/goal-unsubscribe/:token',
-  PREFERENCES_UNSUBSCRIBE: '/preferences-unsubscribe/:userToken/:updatePatch',
+  PREFERENCES_UNSUBSCRIBE: '/preferences-unsubscribe/:userToken/:updatePatch?',
   REDIRECT: '/redirect/*',
   DASHBOARD: 'dashboard',
   ENTERPRISE_LEARNER_DASHBOARD: 'enterprise-learner-dashboard',
@@ -44,6 +46,20 @@ export const VERIFIED_MODES = [
   'executive-education',
   'paid-executive-education',
   'paid-bootcamp',
+] as const satisfies readonly string[];
+
+export const AUDIT_MODES = [
+  'audit',
+  'honor',
+  'unpaid-executive-education',
+  'unpaid-bootcamp',
+] as const satisfies readonly string[];
+
+// In sync with CourseMode.UPSELL_TO_VERIFIED_MODES
+// https://github.com/openedx/edx-platform/blob/master/common/djangoapps/course_modes/models.py#L231
+export const ALLOW_UPSELL_MODES = [
+  'audit',
+  'honor',
 ] as const satisfies readonly string[];
 
 export const WIDGETS = {

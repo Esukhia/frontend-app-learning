@@ -88,10 +88,11 @@ export function fetchCourse(courseId) {
 
       if (fetchedCoursewareOutlineSidebarTogglesResult) {
         const {
-          enable_navigation_sidebar: enableNavigationSidebar,
-          always_open_auxiliary_sidebar: alwaysOpenAuxiliarySidebar,
+          enable_completion_tracking: enableCompletionTracking,
         } = coursewareOutlineSidebarTogglesResult.value;
-        dispatch(setCoursewareOutlineSidebarToggles({ enableNavigationSidebar, alwaysOpenAuxiliarySidebar }));
+        dispatch(setCoursewareOutlineSidebarToggles(
+          { enableCompletionTracking },
+        ));
       }
 
       // Log errors for each request if needed. Outline failures may occur
@@ -133,11 +134,11 @@ export function fetchCourse(courseId) {
   };
 }
 
-export function fetchSequence(sequenceId) {
+export function fetchSequence(sequenceId, isPreview) {
   return async (dispatch) => {
     dispatch(fetchSequenceRequest({ sequenceId }));
     try {
-      const { sequence, units } = await getSequenceMetadata(sequenceId);
+      const { sequence, units } = await getSequenceMetadata(sequenceId, { preview: isPreview ? '1' : '0' });
       if (sequence.blockType !== 'sequential') {
         // Some other block types (particularly 'chapter') can be returned
         // by this API. We want to error in that case, since downstream

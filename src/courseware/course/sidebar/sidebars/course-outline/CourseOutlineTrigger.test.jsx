@@ -43,8 +43,9 @@ describe('<CourseOutlineTrigger />', () => {
   }
 
   it('renders correctly for desktop when sidebar is enabled', async () => {
+    const user = userEvent.setup();
     const mockToggleSidebar = jest.fn();
-    await initTestStore({ enableNavigationSidebar: { enable_navigation_sidebar: true } });
+    await initTestStore();
     renderWithProvider({ toggleSidebar: mockToggleSidebar }, { isMobileView: false });
 
     const toggleButton = await screen.getByRole('button', {
@@ -52,15 +53,16 @@ describe('<CourseOutlineTrigger />', () => {
     });
     expect(toggleButton).toBeInTheDocument();
 
-    userEvent.click(toggleButton);
+    await user.click(toggleButton);
 
     expect(mockToggleSidebar).toHaveBeenCalled();
     expect(mockToggleSidebar).toHaveBeenCalledWith(outlineSidebarId);
   });
 
   it('renders correctly for mobile when sidebar is enabled', async () => {
+    const user = userEvent.setup();
     const mockToggleSidebar = jest.fn();
-    await initTestStore({ enableNavigationSidebar: { enable_navigation_sidebar: true } });
+    await initTestStore();
     renderWithProvider({
       toggleSidebar: mockToggleSidebar,
       shouldDisplayFullScreen: true,
@@ -71,15 +73,16 @@ describe('<CourseOutlineTrigger />', () => {
     });
     expect(toggleButton).toBeInTheDocument();
 
-    userEvent.click(toggleButton);
+    await user.click(toggleButton);
 
     expect(mockToggleSidebar).toHaveBeenCalled();
     expect(mockToggleSidebar).toHaveBeenCalledWith(outlineSidebarId);
   });
 
   it('changes current sidebar value on click', async () => {
+    const user = userEvent.setup();
     const mockToggleSidebar = jest.fn();
-    await initTestStore({ enableNavigationSidebar: { enable_navigation_sidebar: true } });
+    await initTestStore();
     renderWithProvider({
       toggleSidebar: mockToggleSidebar,
       shouldDisplayFullScreen: true,
@@ -91,19 +94,9 @@ describe('<CourseOutlineTrigger />', () => {
     });
     expect(toggleButton).toBeInTheDocument();
 
-    userEvent.click(toggleButton);
+    await user.click(toggleButton);
 
     expect(mockToggleSidebar).toHaveBeenCalledTimes(1);
     expect(mockToggleSidebar).toHaveBeenCalledWith(null);
-  });
-
-  it('does not render when isEnabled is false', async () => {
-    await initTestStore({ enableNavigationSidebar: { enable_navigation_sidebar: false } });
-    renderWithProvider({}, { isMobileView: false });
-
-    const toggleButton = await screen.queryByRole('button', {
-      name: messages.toggleCourseOutlineTrigger.defaultMessage,
-    });
-    expect(toggleButton).not.toBeInTheDocument();
   });
 });
