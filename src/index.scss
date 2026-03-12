@@ -1,7 +1,11 @@
 @use "@openedx/paragon/styles/css/core/custom-media-breakpoints" as paragonCustomMediaBreakpoints;
 
+@import "~@edx/brand/paragon/fonts";
+@import "~@edx/brand/paragon/variables";
 @import "~@edx/frontend-component-footer/dist/footer";
 @import "~@edx/frontend-component-header/dist/index";
+@import "~@edx/brand/paragon/overrides";
+@import "~@edx/brand/paragon/learning-mfe";
 
 
 #root {
@@ -13,6 +17,7 @@
   
   main {
     flex-grow: 1;
+    padding-bottom: 350px;
   }
   #main-content {
     flex-grow: 1;
@@ -495,6 +500,10 @@
 .size-56px {
   width: 56px !important;
   height: 56px !important;
+}
+
+.course-outline-tab [data-testid="start-resume-card"] .pgn__card-header-content {
+  margin-top: 20px;
 }
 
 @media (--pgn-size-breakpoint-max-width-xs) {

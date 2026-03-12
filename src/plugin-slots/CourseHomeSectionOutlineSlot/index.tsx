@@ -1,6 +1,7 @@
 import React from 'react';
 import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import Section from '@src/course-home/outline-tab/section-outline/Section';
+import '../../course-home/outline-tab/section-outline/SectionOutline.scss';
 
 interface Props {
   expandAll: boolean;

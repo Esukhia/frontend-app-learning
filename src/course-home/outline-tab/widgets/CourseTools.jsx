@@ -13,6 +13,7 @@ import { faNewspaper } from '@fortawesome/free-regular-svg-icons';
 import messages from '../messages';
 import { useModel } from '../../../generic/model-store';
 import LaunchCourseHomeTourButton from '../../../product-tours/newUserCourseHomeTour/LaunchCourseHomeTourButton';
+import '../SidebarCards.scss';
 
 const CourseTools = () => {
   const intl = useIntl();
@@ -63,7 +64,7 @@ const CourseTools = () => {
   };
 
   return (
-    <section className="mb-4">
+    <section className="mb-4 course-sidebar-card">
       <h2 className="h4">{intl.formatMessage(messages.tools)}</h2>
       <ul className="list-unstyled">
         {courseTools.map((courseTool) => (

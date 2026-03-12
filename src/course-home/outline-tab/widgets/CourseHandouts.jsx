@@ -6,6 +6,7 @@ import { useIntl } from '@edx/frontend-platform/i18n';
 import LmsHtmlFragment from '../LmsHtmlFragment';
 import messages from '../messages';
 import { useModel } from '../../../generic/model-store';
+import '../SidebarCards.scss';
 
 const CourseHandouts = () => {
   const intl = useIntl();
@@ -21,7 +22,7 @@ const CourseHandouts = () => {
   }
 
   return (
-    <section className="mb-4">
+    <section className="mb-4 course-sidebar-card">
       <h2 className="h4">{intl.formatMessage(messages.handouts)}</h2>
       <LmsHtmlFragment
         className="small"

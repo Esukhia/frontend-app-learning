@@ -34,8 +34,8 @@ const SectionTitle: React.FC<Props> = ({ complete, hideFromTOC, title }) => {
           />
         )}
       </div>
-      <div className="col-7 ml-3 p-0 font-weight-bold text-dark-500">
-        <span className="align-middle col-6">{title}</span>
+      <div className="col ml-3 p-0 font-weight-bold text-dark-500">
+        <span className="align-middle section-title">{title}</span>
         <span className="sr-only">
           , {intl.formatMessage(complete ? messages.completedSection : messages.incompleteSection)}
         </span>
