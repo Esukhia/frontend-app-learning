@@ -90,25 +90,23 @@ const UnitNavigation = ({
       {isAtTop && (
         <div className="d-flex align-items-center justify-content-between w-100">
           {/* Course Outline Trigger on left side */}
-          <div className="mr-2">
+          <div className="mr-2 outline-trigger-mobile">
             <CourseOutlineTrigger isMobileView />
           </div>
           {/* Container for right-aligned triggers with spacing */}
-          <div className="d-flex align-items-center mr-2">
+          <div className="d-flex align-items-center">
             <SidebarTriggers className="mx-1" />
+            <div className="d-flex ml-2">
+              <div className="mr-2">{renderPreviousButton()}</div>
+              <div>{renderNextButton()}</div>
+            </div>
           </div>
         </div>
       )}
 
       {/* Navigation buttons area */}
-      <div className={classNames('d-flex align-items-center', { 'w-100 justify-content-between': !isAtTop })}>
-        {isAtTop ? (
-          /* Top navigation buttons aligned to the right */
-          <div className="d-flex ml-auto">
-            <div className="mr-2">{renderPreviousButton()}</div>
-            <div>{renderNextButton()}</div>
-          </div>
-        ) : (
+      <div className={classNames('d-flex align-items-center', { 'w-100 justify-content-between sequence-bottom-nav-buttons': !isAtTop })}>
+        {!isAtTop && (
           /* Bottom navigation buttons */
           <>
             {renderPreviousButton()}

@@ -6,6 +6,7 @@ import { useIntl } from '@edx/frontend-platform/i18n';
 import DateSummary from '../DateSummary';
 import messages from '../messages';
 import { useModel } from '../../../generic/model-store';
+import '../SidebarCards.scss';
 
 const CourseDates = () => {
   const intl = useIntl();
@@ -27,7 +28,7 @@ const CourseDates = () => {
   }
 
   return (
-    <section className="mb-4">
+    <section className="mb-4 course-sidebar-card">
       <div id="courseHome-dates">
         <h2 className="h4">{intl.formatMessage(messages.dates)}</h2>
         <ol className="list-unstyled">

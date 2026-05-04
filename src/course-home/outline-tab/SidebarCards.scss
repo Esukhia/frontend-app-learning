@@ -1,0 +1,44 @@
+.course-sidebar-card {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0 0 0.75rem;
+}
+
+.course-sidebar-card h2.h4 {
+  display: flex;
+  align-items: center;
+  margin: 0 0 0.5rem 0;
+  font-weight: var(--pgn-typography-font-weight-bold);
+  padding-left: 0.5rem;
+  border-left: 4px solid var(--pgn-color-primary-500);
+}
+
+.course-sidebar-card ul.list-unstyled {
+  margin: 0;
+}
+
+.course-sidebar-card ul.list-unstyled li a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+
+.course-sidebar-card ul.list-unstyled li a:hover {
+  text-decoration: underline;
+}
+
+.course-sidebar-card ul.list-unstyled li a .svg-inline--fa {
+  margin-right: 0.5rem;
+  color: var(--pgn-color-primary-500);
+}
+
+/* Dates card tweaks */
+#courseHome-dates ol.list-unstyled {
+  margin: 0;
+}
+
+#courseHome-dates .date-summary-text {
+  line-height: 1.25rem;
+}

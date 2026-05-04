@@ -14,6 +14,14 @@ const CourseTabsNavigation = ({
   const intl = useIntl();
   const { show } = useCoursewareSearchState();
 
+  const getTabTitle = (slug, fallbackTitle) => {
+    const lookupSlug = slug === 'courseware' ? 'course' : slug;
+    if (messages[lookupSlug]) {
+      return intl.formatMessage(messages[lookupSlug]);
+    }
+    return fallbackTitle;
+  };
+
   return (
     <div id="courseTabsNavigation" className={classNames('course-tabs-navigation', className)}>
       <div className="container-xl">
@@ -29,7 +37,7 @@ const CourseTabsNavigation = ({
                   className={classNames('nav-item flex-shrink-0 nav-link', { active: slug === activeTabSlug })}
                   href={url}
                 >
-                  {title}
+                  {getTabTitle(slug, title)}
                 </a>
               ))}
             </Tabs>

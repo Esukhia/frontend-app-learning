@@ -13,6 +13,7 @@ export const ID = WIDGETS.NOTIFICATIONS;
 
 const NotificationTrigger = ({
   onClick,
+  isActive,
 }) => {
   const intl = useIntl();
   const {
@@ -48,14 +49,19 @@ const NotificationTrigger = ({
   });
 
   return (
-    <SidebarTriggerBase onClick={onClick} ariaLabel={intl.formatMessage(messages.openNotificationTrigger)}>
-      <NotificationIcon status={notificationStatus} notificationColor="bg-danger-500" />
+    <SidebarTriggerBase
+      onClick={onClick}
+      ariaLabel={intl.formatMessage(messages.openNotificationTrigger)}
+      isActive={isActive}
+    >
+      <NotificationIcon status={notificationStatus} notificationColor="bg-danger-500" isActive={isActive} />
     </SidebarTriggerBase>
   );
 };
 
 NotificationTrigger.propTypes = {
   onClick: PropTypes.func.isRequired,
+  isActive: PropTypes.bool,
 };
 
 export default NotificationTrigger;

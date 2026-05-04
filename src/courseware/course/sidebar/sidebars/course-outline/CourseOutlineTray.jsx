@@ -136,7 +136,7 @@ const CourseOutlineTray = () => {
     >
       <section className="outline-sidebar w-100">
         {sidebarHeading}
-        <ol id="outline-sidebar-outline" className="list-unstyled">
+        <ol id="outline-sidebar-outline" className={classNames('list-unstyled', { 'sequence-level': isDisplaySequenceLevel })}>
           {isDisplaySequenceLevel
             ? sequenceIds.map((sequenceId) => (
               <SidebarSequence

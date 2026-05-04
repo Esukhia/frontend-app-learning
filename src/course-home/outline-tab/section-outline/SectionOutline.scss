@@ -1,0 +1,36 @@
+#courseHome-outline {
+  margin: 0; /* already list-unstyled, ensure tight rhythm */
+}
+
+#courseHome-outline > li > .pgn_collapsible {
+  border: 1px solid #d7d3d1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#courseHome-outline > li > .pgn_collapsible .collapsible-trigger {
+  padding: var(--pgn-spacing-spacer-3-5) var(--pgn-spacing-spacer-4) var(--pgn-spacing-spacer-3-5) var(--pgn-spacing-spacer-5);
+}
+
+#courseHome-outline > li > .pgn_collapsible .collapsible-trigger:hover {
+  background-color: var(--pgn-color-light-500);
+}
+
+#courseHome-outline > li > .pgn_collapsible .collapsible-icon {
+  margin-inline-start: initial;
+}
+
+/* Sequence list item separators inside a section */
+#courseHome-outline .border-top.border-light {
+  border-color: #eee !important;
+}
+
+/* Clamp long titles to two lines */
+.section-title,
+.sequence-title {
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

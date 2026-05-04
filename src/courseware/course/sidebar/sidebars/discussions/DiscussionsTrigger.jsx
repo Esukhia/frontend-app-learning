@@ -17,6 +17,7 @@ export const ID = WIDGETS.DISCUSSIONS;
 
 const DiscussionsTrigger = ({
   onClick,
+  isActive,
 }) => {
   const intl = useIntl();
   const {
@@ -44,14 +45,19 @@ const DiscussionsTrigger = ({
   }
 
   return (
-    <SidebarTriggerBase onClick={onClick} ariaLabel={intl.formatMessage(messages.openDiscussionsTrigger)}>
-      <Icon src={Forum} className="m-0 m-auto" style={{ color: '#093055' }} />
+    <SidebarTriggerBase
+      onClick={onClick}
+      ariaLabel={intl.formatMessage(messages.openDiscussionsTrigger)}
+      isActive={isActive}
+    >
+      <Icon src={Forum} className="m-0 m-auto" style={{ color: isActive ? '#FFFFFF' : '#093055' }} />
     </SidebarTriggerBase>
   );
 };
 
 DiscussionsTrigger.propTypes = {
   onClick: PropTypes.func.isRequired,
+  isActive: PropTypes.bool,
 };
 
 export default DiscussionsTrigger;

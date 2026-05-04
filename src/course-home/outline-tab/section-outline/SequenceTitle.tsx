@@ -25,8 +25,8 @@ const SequenceTitle: React.FC<Props> = ({
 }) => {
   const intl = useIntl();
   const courseId = useContextId();
-  const coursewareUrl = <Link to={`/course/${courseId}/${id}`}>{title}</Link>;
-  const displayTitle = showLink ? coursewareUrl : title;
+  const coursewareUrl = <Link className="sequence-title" to={`/course/${courseId}/${id}`}>{title}</Link>;
+  const displayTitle = showLink ? coursewareUrl : <span className="sequence-title">{title}</span>;
 
   return (
     <div className="row w-100 m-0">
@@ -50,7 +50,7 @@ const SequenceTitle: React.FC<Props> = ({
         )}
       </div>
       <div className="col-10 p-0 ml-3 text-break">
-        <span className="align-middle">{displayTitle}</span>
+        <span className="align-middle sequence-title">{displayTitle}</span>
         <span className="sr-only">
           , {intl.formatMessage(complete ? messages.completedAssignment : messages.incompleteAssignment)}
         </span>

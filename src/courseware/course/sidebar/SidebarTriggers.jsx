@@ -19,11 +19,10 @@ const SidebarTriggers = () => {
         const isActive = sidebarId === currentSidebar;
         return (
           <div
-            className={classNames({ 'ml-1': !isMobileView, 'mr-1': isMobileView, 'border-primary-700 sidebar-active': isActive })}
-            style={{ borderBottom: '2px solid', borderColor: isActive ? 'inherit' : 'transparent' }}
+            className={classNames({ 'ml-1': !isMobileView, 'mr-1': isMobileView, 'sidebar-active': isActive })}
             key={sidebarId}
           >
-            <Trigger onClick={() => toggleSidebar(sidebarId)} key={sidebarId} />
+            <Trigger onClick={() => toggleSidebar(sidebarId)} isActive={isActive} key={sidebarId} />
           </div>
         );
       })}
