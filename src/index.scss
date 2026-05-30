@@ -5,7 +5,8 @@
 @import "~@edx/frontend-component-footer/dist/footer";
 @import "~@edx/frontend-component-header/dist/index";
 @import "~@edx/brand/paragon/overrides";
-@import "~@edx/brand/paragon/learning-mfe";
+// learning-mfe.scss is not present in @openedx/brand-openedx; uncomment when custom brand is added
+//@import "~@edx/brand/paragon/learning-mfe";
 
 
 #root {
@@ -428,6 +429,63 @@
   .next-button,
   .previous-button {
     font-size: 1.5rem;
+  }
+}
+
+.unit-title-header {
+  display: grid;
+  width: 100%;
+  column-gap: var(--pgn-spacing-spacer-3);
+  row-gap: var(--pgn-spacing-spacer-2);
+  align-items: center;
+  grid-template-columns: 1fr;
+
+  .unit-title-container {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .unit-title-nav {
+    min-width: 0;
+    max-width: 100%;
+    justify-self: end;
+    width: 100%;
+    // Mobile-first: nav buttons sit above the title (stacked).
+    order: -1;
+
+    .top-unit-navigation {
+      width: auto;
+      max-width: 100%;
+    }
+
+    .top-unit-navigation > .d-flex.w-100 {
+      width: auto;
+      max-width: 100%;
+    }
+  }
+
+  .unit-title-container h3 {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  // Switch to the side-by-side row layout only from xl up. Using a single
+  // min-width query (instead of a separate max-width-lg rule) avoids the
+  // 1200px boundary where both queries would otherwise apply at once.
+  @media (--pgn-size-breakpoint-min-width-xl) {
+    grid-template-columns: minmax(0, 1fr) auto;
+
+    .unit-title-nav {
+      order: 0;
+      width: auto;
+
+      // On desktop the outline trigger renders empty, but its negative
+      // margin still pulls the discussion/notification buttons left over
+      // the title. Neutralize it inside this header only.
+      .outline-trigger-mobile {
+        margin-left: 0;
+      }
+    }
   }
 }
 
