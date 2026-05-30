@@ -432,6 +432,25 @@
   }
 }
 
+.unit-title-header {
+  width: 100%;
+
+  .unit-title-container {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .unit-title-nav {
+    flex: 0 0 auto;
+  }
+
+  @media (--pgn-size-breakpoint-min-width-xl) {
+    .unit-title-container {
+      padding-right: var(--pgn-spacing-spacer-2);
+    }
+  }
+}
+
 // This class forces any modals using 'modal-lti' as their dialogClassName to take up the whole
 // window (retaining padding around the edge).  Bootstrap modals don't have a full-screen
 // size like this.  Because of the hack below around react-focus-on's div, it would be better long-term to pull this into Paragon and perhaps call it "modal-full" or something like that.

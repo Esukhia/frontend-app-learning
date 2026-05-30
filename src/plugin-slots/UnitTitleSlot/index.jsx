@@ -24,11 +24,11 @@ const UnitTitleSlot = ({
         renderUnitNavigation,
       }}
     >
-      <div className="d-flex flex-column-reverse flex-xl-row align-items-start align-items-xl-center justify-content-between">
-        <div className="mb-0 mt-3 mt-xl-0">
-          <h3 className="h3">{unit.title}</h3>
+      <div className="unit-title-header d-flex flex-column-reverse flex-xl-row align-items-start align-items-xl-center justify-content-between gap-3">
+        <div className="unit-title-container mb-0 mt-3 mt-xl-0">
+          <h3 className="h3 text-break mb-0">{unit.title}</h3>
         </div>
-        <div className="w-100">
+        <div className="unit-title-nav flex-shrink-0">
           {renderUnitNavigation(true)}
         </div>
       </div>
