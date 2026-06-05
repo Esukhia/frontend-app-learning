@@ -76,6 +76,23 @@ describe('Notification Trigger', () => {
     expect(screen.getByTestId('notification-dot')).toBeInTheDocument();
   });
 
+  it('initializes notification status as inactive when missing from localStorage', async () => {
+    const container = renderWithProvider({ upgradeNotificationCurrentState: null });
+    expect(container).toBeInTheDocument();
+    expect(localStorage.setItem).toHaveBeenCalledWith(`notificationStatus.${mockData.courseId}`, '"inactive"');
+    expect(screen.queryByTestId('notification-dot')).not.toBeInTheDocument();
+  });
+
+  it('initializes upgradeNotificationLastSeen without activating dot on first seen state', async () => {
+    localStorage.removeItem(`upgradeNotificationLastSeen.${mockData.courseId}`);
+    localStorage.removeItem(`notificationStatus.${mockData.courseId}`);
+    const container = renderWithProvider({ upgradeNotificationCurrentState: 'initialize' });
+    expect(container).toBeInTheDocument();
+    expect(localStorage.setItem).toHaveBeenCalledWith(`upgradeNotificationLastSeen.${mockData.courseId}`, '"initialize"');
+    expect(localStorage.setItem).not.toHaveBeenCalledWith(`notificationStatus.${mockData.courseId}`, '"active"');
+    expect(screen.queryByTestId('notification-dot')).not.toBeInTheDocument();
+  });
+
   it('renders notification trigger icon WITHOUT red dot within the same phase', async () => {
     const container = renderWithProvider({
       upgradeNotificationLastSeen: 'sameState',
