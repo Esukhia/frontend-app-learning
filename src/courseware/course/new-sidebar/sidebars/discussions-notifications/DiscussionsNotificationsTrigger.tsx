@@ -50,7 +50,12 @@ const DiscussionsNotificationsTrigger = ({ onClick }) => {
   compare with the last state they've seen, and if it's different then set dot back to red */
   function updateUpgradeNotificationLastSeen() {
     if (upgradeNotificationCurrentState) {
-      if (getLocalStorage(`upgradeNotificationLastSeen.${courseId}`) !== upgradeNotificationCurrentState) {
+      const upgradeNotificationLastSeen = getLocalStorage(`upgradeNotificationLastSeen.${courseId}`);
+      if (upgradeNotificationLastSeen == null) {
+        setLocalStorage(`upgradeNotificationLastSeen.${courseId}`, upgradeNotificationCurrentState);
+        return;
+      }
+      if (upgradeNotificationLastSeen !== upgradeNotificationCurrentState) {
         setNotificationStatus('active');
         setLocalStorage(`notificationStatus.${courseId}`, 'active');
         setLocalStorage(`upgradeNotificationLastSeen.${courseId}`, upgradeNotificationCurrentState);
@@ -59,7 +64,7 @@ const DiscussionsNotificationsTrigger = ({ onClick }) => {
   }
 
   if (!getLocalStorage(`notificationStatus.${courseId}`)) {
-    setLocalStorage(`notificationStatus.${courseId}`, 'active'); // Show red dot on notificationTrigger until seen
+    setLocalStorage(`notificationStatus.${courseId}`, 'inactive'); // Avoid showing red dot until a notification becomes active
   }
 
   if (!getLocalStorage(`upgradeNotificationCurrentState.${courseId}`)) {

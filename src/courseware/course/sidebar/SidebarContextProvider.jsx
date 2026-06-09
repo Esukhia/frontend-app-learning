@@ -32,7 +32,9 @@ const SidebarProvider = ({
       : verifiedMode && SIDEBARS[notificationsSidebar.ID].ID;
   }
   const [currentSidebar, setCurrentSidebar] = useState(initialSidebar);
-  const [notificationStatus, setNotificationStatus] = useState(getLocalStorage(`notificationStatus.${courseId}`));
+  const [notificationStatus, setNotificationStatus] = useState(
+    getLocalStorage(`notificationStatus.${courseId}`) || 'inactive',
+  );
   const [upgradeNotificationCurrentState, setUpgradeNotificationCurrentState] = useState(getLocalStorage(`upgradeNotificationCurrentState.${courseId}`));
 
   useEffect(() => {

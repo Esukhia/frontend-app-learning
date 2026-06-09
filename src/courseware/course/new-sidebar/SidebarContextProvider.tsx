@@ -39,7 +39,7 @@ const SidebarProvider: React.FC<Props> = ({
     initialSidebar = SIDEBARS.DISCUSSIONS_NOTIFICATIONS.ID;
   }
   const [currentSidebar, setCurrentSidebar] = useState(initialSidebar);
-  const [notificationStatus, setNotificationStatus] = useState(getLocalStorage(`notificationStatus.${courseId}`));
+  const [notificationStatus, setNotificationStatus] = useState(getLocalStorage(`notificationStatus.${courseId}`) || 'inactive');
   const [hideDiscussionbar, setHideDiscussionbar] = useState(false);
   const [hideNotificationbar, setHideNotificationbar] = useState(false);
   const [upgradeNotificationCurrentState, setUpgradeNotificationCurrentState] = useState(
