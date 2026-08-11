@@ -12,6 +12,9 @@ const UnitTitleSlot = ({
 }) => {
   const { formatMessage } = useIntl();
   const isProcessing = unit.bookmarkedUpdateState === 'loading';
+  // Chrome Translate (Chinese Traditional) corrupts Tibetan complex-script shaping.
+  // Opt Tibetan titles out of browser translation; leave other titles translatable.
+  const hasTibetan = /[\u0F00-\u0FFF]/.test(unit.title);
 
   return (
     <PluginSlot
@@ -26,7 +29,12 @@ const UnitTitleSlot = ({
     >
       <div className="unit-title-header">
         <div className="unit-title-container mb-0 mt-3 mt-xl-0">
-          <h3 className="h3 mb-0">{unit.title}</h3>
+          <h3
+            className={hasTibetan ? 'h3 mb-0 notranslate' : 'h3 mb-0'}
+            {...(hasTibetan ? { lang: 'bo', translate: 'no' } : {})}
+          >
+            {unit.title}
+          </h3>
         </div>
         <div className="unit-title-nav">
           {renderUnitNavigation(true)}
