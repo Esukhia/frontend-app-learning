@@ -1,13 +1,8 @@
 @use "@openedx/paragon/styles/css/core/custom-media-breakpoints" as paragonCustomMediaBreakpoints;
 
-@import "~@edx/brand/paragon/fonts";
-@import "~@edx/brand/paragon/variables";
 @import "~@edx/frontend-component-footer/dist/footer";
 @import "~@edx/frontend-component-header/dist/index";
-@import "~@edx/brand/paragon/overrides";
-@import "~@edx/brand/paragon/footer";
-// learning-mfe.scss is not present in @openedx/brand-openedx; uncomment when custom brand is added
-//@import "~@edx/brand/paragon/learning-mfe";
+@import "~@edx/brand/paragon/learning";
 
 
 #root {
